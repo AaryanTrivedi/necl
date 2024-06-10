@@ -1,0 +1,105 @@
+# Execution
+
+Execution in the context of programmable blockchains refers to the process by which smart contracts and transactions are processed and validated on the blockchain. This involves several key steps, from writing the smart contract code to its deployment and execution on the blockchain.
+
+## Key Concepts in Execution
+
+### 1. Writing Smart Contracts
+
+Smart contracts are written in specific programming languages that the blockchain can understand. For Ethereum, the primary language is Solidity, while Solana uses Rust.
+
+    ```solidity
+    // Example of a simple Solidity smart contract
+    pragma solidity ^0.8.0;
+
+    contract SimpleContract {
+        uint256 public value;
+
+        function setValue(uint256 newValue) public {
+            value = newValue;
+        }
+    }
+    ```
+
+### 2. Compilation
+
+The smart contract code is compiled into bytecode that can be executed by the blockchain's virtual machine (VM). This ensures that the code can be processed consistently by all nodes in the network.
+
+### 3. Deployment
+
+The compiled smart contract bytecode is deployed to the blockchain. This involves sending a transaction that includes the bytecode and any necessary initial data.
+
+    ```javascript
+    // Example of deploying a smart contract using web3.js
+    const Web3 = require('web3');
+    const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
+
+    const bytecode = '0x...';  // Compiled smart contract bytecode
+    const abi = [/* ABI array */];
+
+    const deployContract = async () => {
+        const accounts = await web3.eth.getAccounts();
+        const contract = new web3.eth.Contract(abi);
+
+        contract.deploy({ data: bytecode })
+            .send({ from: accounts[0], gas: 1500000, gasPrice: '30000000000000' })
+            .then(newContractInstance => {
+                console.log("Contract deployed at:", newContractInstance.options.address);
+            });
+    };
+
+    deployContract();
+    ```
+
+### 4. Execution
+
+Once deployed, the smart contract can be interacted with through transactions. Each transaction that invokes a function on the smart contract results in the execution of that function by the blockchain's VM.
+
+    ```javascript
+    // Example of calling a smart contract function
+    const contractAddress = '0x...';  // Deployed contract address
+    const contract = new web3.eth.Contract(abi, contractAddress);
+
+    const setValue = async (newValue) => {
+        const accounts = await web3.eth.getAccounts();
+        await contract.methods.setValue(newValue)
+            .send({ from: accounts[0] });
+        console.log("Value set to:", newValue);
+    };
+
+    setValue(42);
+    ```
+
+### 5. Gas and Fees
+
+Execution of smart contracts requires computational resources, which are paid for using "gas" in Ethereum. Each operation in the smart contract consumes a certain amount of gas, and users must specify a gas limit and gas price when sending transactions.
+
+    ```javascript
+    // Example of specifying gas limit and gas price
+    contract.methods.setValue(42)
+        .send({ from: accounts[0], gas: 500000, gasPrice: '20000000000' })
+        .then(receipt => {
+            console.log("Transaction receipt:", receipt);
+        });
+    ```
+
+### 6. State Changes
+
+When a smart contract function is executed, it can alter the state of the blockchain by modifying the contract's storage variables. These changes are recorded on the blockchain and are immutable.
+
+### 7. Events
+
+Smart contracts can emit events to signal that something has happened. These events are logged on the blockchain and can be listened to by external applications.
+
+    ```solidity
+    // Example of emitting an event in Solidity
+    event ValueChanged(uint256 newValue);
+
+    function setValue(uint256 newValue) public {
+        value = newValue;
+        emit ValueChanged(newValue);
+    }
+    ```
+
+
+Execution in programmable blockchains involves the entire lifecycle of a smart contract, from writing and compiling the code to deploying it on the blockchain and executing its functions. Understanding this process is crucial for developing efficient and effective blockchain applications.

@@ -1,0 +1,9 @@
+{
+  "contract": "Smart Contracts with Anchor",
+  "framework": "Anchor Framework",
+  "intro": "Introduction to Anchor",
+  "setup": "Setting up an Anchor Project",
+  "test":"Writing and Testing Programs with Anchor",
+  "idl": "Anchor's IDL (Interface Description Language)",
+  "hello": "Hello World with Anchor"
+}

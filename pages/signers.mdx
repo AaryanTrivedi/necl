@@ -1,0 +1,42 @@
+# Signers and Non-Signers
+
+In Solana transactions, signers and non-signers play distinct roles in the authorization process.
+
+## Signers
+
+- **Authorization**: Signers are accounts that provide cryptographic signatures to authorize transactions.
+- **Private Keys**: Signers possess the private keys corresponding to their associated public keys.
+- **Authorization Instruction**: Signers explicitly approve transactions by signing them, thereby proving ownership and granting permission for the specified actions.
+
+## Non-Signers
+
+- **Involvement in Transactions**: Non-signers are accounts referenced in transactions but do not provide signatures.
+- **Read-Only Access**: Non-signers are typically involved in read-only operations or do not require authorization for the transaction's execution.
+- **Data Retrieval**: Transactions may reference non-signer accounts to retrieve data or perform computations without modifying their state.
+
+## Transaction Authorization
+
+- **Authorization Logic**: Transaction authorization logic determines which accounts must provide signatures and which can be referenced as non-signers.
+- **Complex Transactions**: Some transactions may involve multiple signers and non-signers, each with specific roles and permissions.
+- **Atomicity**: All instructions within a transaction must be authorized by their respective signers for the transaction to be executed atomically.
+
+## Use Cases
+
+### Signer Use Cases
+
+- **Token Transfers**: Signers authorize token transfers by providing signatures for the sender's account.
+- **State Changes**: Signers authorize state changes, such as updating balances or modifying program state.
+
+### Non-Signer Use Cases
+
+- **Token Balance Checks**: Non-signers may be referenced to check token balances without requiring authorization.
+- **Data Retrieval**: Non-signers may be involved in data retrieval operations, such as fetching account state or performing computations based on existing data.
+
+## Security Considerations
+
+- **Private Key Protection**: Signers' private keys must be securely managed to prevent unauthorized access and potential misuse.
+- **Authorization Logic**: Ensure that transaction authorization logic accurately reflects the intended permissions and security requirements of the application.
+
+## Conclusion
+
+Signers and non-signers are essential concepts in Solana transactions, providing a mechanism for controlling access to accounts and authorizing actions on the blockchain. Understanding the roles and responsibilities of signers and non-signers is crucial for designing secure and efficient decentralized applications.

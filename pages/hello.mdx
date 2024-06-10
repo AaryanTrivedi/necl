@@ -1,0 +1,87 @@
+# Basic Example: Hello World
+
+This guide walks you through creating a simple "Hello World" program on the Solana blockchain using Rust and the Solana programming framework.
+
+## Overview
+
+### Objective
+
+- **Goal**: Create and deploy a basic Solana program that outputs "Hello, World!" when invoked.
+
+## Creating the Hello World Program
+
+### Step 1: Initialize the Project
+
+1. **Create a New Project**:
+    ```sh
+    anchor init hello_world
+    cd hello_world
+    ```
+
+### Step 2: Define Program Logic
+
+1. **Open `programs/hello_world/src/lib.rs` and add the following code**:
+    ```rust
+    use anchor_lang::prelude::*;
+
+    declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkgVdXYkFG7C");
+
+    #[program]
+    pub mod hello_world {
+        use super::*;
+        pub fn greet(ctx: Context<Greet>) -> Result<()> {
+            msg!("Hello, World!");
+            Ok(())
+        }
+    }
+
+    #[derive(Accounts)]
+    pub struct Greet {}
+    ```
+
+### Step 3: Build and Deploy the Program
+
+1. **Build the Program**:
+    ```sh
+    anchor build
+    ```
+
+2. **Deploy the Program**:
+    ```sh
+    solana program deploy target/deploy/hello_world.so
+    ```
+
+## Interacting with the Program
+
+### Step 1: Create Client Script
+
+1. **Create a new file `client.js` and add the following code**:
+    ```javascript
+    const solanaWeb3 = require('@solana/web3.js');
+    const anchor = require('@project-serum/anchor');
+
+    async function main() {
+        const provider = anchor.AnchorProvider.env();
+        anchor.setProvider(provider);
+
+        const program = anchor.workspace.HelloWorld;
+
+        const tx = await program.rpc.greet();
+        console.log("Transaction signature:", tx);
+    }
+
+    main().catch(err => {
+        console.error(err);
+    });
+    ```
+
+### Step 2: Run the Client Script
+
+1. **Execute the Script**:
+    ```sh
+    node client.js
+    ```
+
+## Conclusion
+
+This basic "Hello World" example demonstrates the essential steps for creating, deploying, and interacting with a simple Solana program. This foundational knowledge paves the way for developing more complex decentralized applications on the Solana blockchain.

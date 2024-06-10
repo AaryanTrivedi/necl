@@ -1,0 +1,121 @@
+# Solana VM / SVM
+
+The Solana Virtual Machine (SVM) is the execution environment for smart contracts on the Solana blockchain. Designed for high performance and scalability, the SVM allows developers to create decentralized applications (DApps) that can handle thousands of transactions per second.
+
+## Overview
+
+### What is the SVM?
+
+The Solana Virtual Machine is a key component of the Solana blockchain, responsible for executing smart contracts and managing their state. Unlike the Ethereum Virtual Machine (EVM), which is optimized for flexibility and general-purpose computation, the SVM is built for speed and efficiency, making it suitable for high-frequency trading, real-time games, and other demanding applications.
+
+### Key Features
+
+- **High Throughput**: Capable of processing thousands of transactions per second.
+- **Low Latency**: Transactions are confirmed in a matter of seconds.
+- **Parallel Execution**: Uses parallelization to execute multiple transactions simultaneously.
+- **Cost-Effective**: Low transaction fees compared to other blockchains.
+
+## SVM Architecture
+
+### Parallel Execution
+
+Solana uses a unique execution model called "Sealevel," which allows the SVM to process transactions in parallel. This is achieved by identifying non-overlapping transactions that can be executed simultaneously, greatly increasing throughput.
+
+### Accounts Model
+
+Solana uses an account-based model where each account stores data that can be read and modified by smart contracts. Accounts are divided into:
+
+- **Program Accounts**: Contain the executable code of smart contracts.
+- **User Accounts**: Hold user-specific data and balances.
+
+### Rent Mechanism
+
+To manage storage costs, Solana implements a rent mechanism where accounts must pay rent to remain active. This ensures that inactive accounts do not consume valuable storage resources indefinitely.
+
+## Writing Smart Contracts for Solana
+
+Smart contracts on Solana are written in Rust, a language known for its performance and safety features. The Anchor framework is often used to simplify development.
+
+    ```rust
+    // Example of a simple Rust smart contract using Anchor
+    use anchor_lang::prelude::*;
+
+    declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkgkoPs38Yk9C");
+
+    #[program]
+    pub mod hello_world {
+        use super::*;
+
+        pub fn initialize(ctx: Context<Initialize>) -> ProgramResult {
+            let base_account = &mut ctx.accounts.base_account;
+            base_account.data = 0;
+            Ok(())
+        }
+
+        pub fn update(ctx: Context<Update>, data: u64) -> ProgramResult {
+            let base_account = &mut ctx.accounts.base_account;
+            base_account.data = data;
+            Ok(())
+        }
+    }
+
+    #[derive(Accounts)]
+    pub struct Initialize<'info> {
+        #[account(init, payer = user, space = 8 + 8)]
+        pub base_account: Account<'info, BaseAccount>,
+        #[account(mut)]
+        pub user: Signer<'info>,
+        pub system_program: Program<'info, System>,
+    }
+
+    #[derive(Accounts)]
+    pub struct Update<'info> {
+        #[account(mut)]
+        pub base_account: Account<'info, BaseAccount>,
+    }
+
+    #[account]
+    pub struct BaseAccount {
+        pub data: u64,
+    }
+    ```
+
+## Deployment
+
+Deploying a smart contract on Solana involves compiling the Rust code into a shared object file (`.so`) and uploading it to the blockchain.
+
+    ```sh
+    # Example of deploying a smart contract using Anchor CLI
+    anchor build
+    anchor deploy
+    ```
+
+## Interaction
+
+Users can interact with Solana smart contracts by sending transactions that call specific functions within the contract. This can be done using client libraries such as Solana Web3.js.
+
+    ```javascript
+    // Example of interacting with a Solana smart contract using Solana Web3.js
+    const solanaWeb3 = require('@solana/web3.js');
+    const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'));
+
+    const programId = new solanaWeb3.PublicKey('Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkgkoPs38Yk9C');
+    const baseAccount = new solanaWeb3.Account();
+
+    const transaction = new solanaWeb3.Transaction().add(
+        solanaWeb3.SystemProgram.createAccount({
+            fromPubkey: payer.publicKey,
+            newAccountPubkey: baseAccount.publicKey,
+            lamports: solanaWeb3.LAMPORTS_PER_SOL,
+            space: 8 + 8,
+            programId,
+        })
+    );
+
+    solanaWeb3.sendAndConfirmTransaction(connection, transaction, [payer, baseAccount])
+        .then(signature => {
+            console.log("Transaction signature", signature);
+        });
+    ```
+
+The Solana Virtual Machine (SVM) provides a high-performance execution environment for smart contracts, leveraging parallel execution and an efficient account model to achieve low latency and high throughput. With its robust architecture and support for the Rust programming language, the SVM is well-suited for building scalable and efficient decentralized applications.

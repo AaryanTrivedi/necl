@@ -1,0 +1,100 @@
+# Connecting DApps to Salmon
+
+Salmon is a decentralized messaging protocol built on the Solana blockchain. Integrating decentralized applications (DApps) with Salmon allows developers to incorporate secure and censorship-resistant messaging capabilities into their applications. This guide provides an overview of connecting DApps to Salmon.
+
+## Overview
+
+### Purpose
+
+- **Secure Communication**: Salmon enables secure and private communication between users of decentralized applications.
+- **Censorship Resistance**: By leveraging the Solana blockchain, Salmon provides censorship-resistant messaging that cannot be controlled or censored by centralized authorities.
+
+## Key Components
+
+### Salmon Protocol
+
+- **Decentralized Messaging**: Salmon is a decentralized messaging protocol that operates on the Solana blockchain.
+- **End-to-End Encryption**: Salmon messages are encrypted end-to-end, ensuring privacy and security for users.
+
+### Solana Blockchain
+
+- **Underlying Infrastructure**: Salmon leverages the Solana blockchain as the underlying infrastructure for message transmission and storage.
+- **Efficiency and Scalability**: Solana's high throughput and low latency ensure efficient and scalable messaging on the Salmon protocol.
+
+## Integrating DApps with Salmon
+
+### Step 1: Install Salmon SDK
+
+1. **Installation**:
+    ```sh
+    npm install @project-serum/salmon-sdk
+    ```
+
+### Step 2: Initialize Salmon Client
+
+1. **Import SDK**:
+    ```javascript
+    const Salmon = require('@project-serum/salmon-sdk');
+    ```
+
+2. **Initialize Client**:
+    ```javascript
+    const salmonClient = new Salmon.Client();
+    ```
+
+### Step 3: Connect to Solana Wallet
+
+1. **Import Solana Web3 Library**:
+    ```javascript
+    const solanaWeb3 = require('@solana/web3.js');
+    ```
+
+2. **Initialize Connection**:
+    ```javascript
+    const connection = new solanaWeb3.Connection('https://api.mainnet-beta.solana.com');
+    ```
+
+3. **Connect to Wallet**:
+    ```javascript
+    const wallet = new solanaWeb3.Wallet();
+    ```
+
+### Step 4: Send and Receive Messages
+
+1. **Send Message**:
+    ```javascript
+    const recipient = 'recipient_public_key';
+    const message = 'Hello, world!';
+    const encryptedMessage = await salmonClient.encryptMessage(recipient, message);
+    const transaction = await salmonClient.sendMessage(encryptedMessage, wallet);
+    ```
+
+2. **Receive Messages**:
+    ```javascript
+    const messages = await salmonClient.getMessages(wallet);
+    messages.forEach(message => {
+        console.log(`From: ${message.sender}`);
+        console.log(`Message: ${message.content}`);
+    });
+    ```
+
+## Best Practices
+
+### Security
+
+- **End-to-End Encryption**: Always encrypt messages end-to-end to ensure privacy and security for users.
+- **Wallet Security**: Secure user wallets to prevent unauthorized access to sensitive information.
+
+### Performance
+
+- **Batching Requests**: Batch multiple message requests to reduce network overhead and improve performance.
+- **Optimized Storage**: Store messages efficiently on the Solana blockchain to minimize storage costs.
+
+### User Experience
+
+- **Feedback Mechanisms**: Provide feedback to users on message transmission and delivery status.
+- **Error Handling**: Handle errors gracefully and provide informative error messages to users.
+
+## Conclusion
+
+Integrating decentralized applications with Salmon enables developers to incorporate secure and censorship-resistant messaging capabilities into their applications. By leveraging the Salmon protocol and the Solana blockchain, developers can provide users with a seamless and private messaging experience in their DApps.

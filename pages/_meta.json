@@ -1,0 +1,47 @@
+{
+  "ledger":"Public Ledgers: Distributed State Tracking Machines",
+  "crypto":"Fundamentals of cryptography",
+  "consensus":"Consensus Mechanisms",
+  "bitcoin":"Bitcoin: The Very First Blockchain",
+  "execution":"Execution",
+  "evm":"EVM",
+  "svm":"Solana VM/SVM",
+  "account-based-model":"Account Based Model",
+  "localized":"Localized Fee Markets",
+  "parallelization":"Parallelization",
+  "sequencers":"Sequencers",
+  "das":"Data Availability Sampling",
+  "settlement":"Settlement",
+  "mvm":"Monolithic vs Modular",
+  "solana": {
+    "setup": "Setting things up",
+    "guide": "User Guide"
+  },
+  "concepts": "Solana Programming Concepts",
+  "spl": "Solana Programming Library",
+  "accounts": "Accounts and Wallets",
+  "ownership":"Account Ownership and Permissions",
+  "resource":"Rent and Resource management",
+  "pda": "Program Derived Addresses",
+  "signers": "Signers and Non Signers",
+  "system": "System Program",
+  "transactions": "Transactions and Signatures",
+  "advanced": "Advanced Concepts",
+  "cpi": "Cross-Program Invocations (CPIs)",
+  "subscriptions":"Account Subscriptions",
+  "smart": "Smart Contract Development",
+  "primer":"Rust and JS Programming for Solana: A Basic Primer",
+  "bpf":"BPF Compiler",
+  "hello":"Hello World Example",
+  "anchor": "Anchor",
+  "frontend": "Frontend Integration",
+  "dapps": "Connecting DApps to Salmon",
+  "lib":"Web3.js and Solana Web3 Library",
+  "handle": "Handling Transactions",
+
+
+  "about": {
+    "title": "About",
+    "type": "page"
+  }
+}

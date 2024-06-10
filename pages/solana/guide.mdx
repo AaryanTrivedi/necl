@@ -1,0 +1,132 @@
+# Development guide with examples
+
+## How to use the Solana CLI
+
+The Solana Command Line Interface (CLI) is a powerful tool that allows developers and users to interact with the Solana blockchain. It provides a comprehensive set of commands for various tasks such as deploying smart contracts, managing accounts, and monitoring network activity. Here's a hands-on guide to using the Solana CLI:
+
+Follow this guide to install the Solana CLI on your machine: [Solana CLI Installation Docs](https://docs.solanalabs.com/cli/install)
+
+Usage:
+
+Once installed, you can use the Solana CLI to interact with the Solana blockchain. Here are some common commands:
+
+Check Cluster Status:
+
+```bash
+solana cluster-version
+```
+
+Create a Wallet:
+
+```bash
+solana-keygen new --outfile ~/my-wallet.json
+```
+
+Show Account Balance:
+
+```bash
+solana balance <account_address>
+```
+
+Send SOL to Another Account:
+
+```bash
+solana transfer <recipient_address> <amount>
+```
+
+Deploy a Smart Contract:
+
+```bash
+solana deploy <program_binary>
+```
+
+Interact with a Smart Contract:
+
+```bash
+solana program <program_address>
+```
+
+View Transaction Logs:
+
+```bash
+solana logs
+```
+
+## Setting up your Development Environment
+
+Before you can start developing smart contracts for SVM, you need to set up your development environment. This involves installing the necessary tools and libraries. Follow the instructions in this section to get started.
+
+- Install Rust and Cargo, the package manager for Rust, by following the official Rust installation guide: rustup.rs.
+- Install the Solana Command Line Tool (CLI) by following the instructions in the Solana documentation: solana.com/docs/.
+- Install the Solana SDK for Rust by adding the following dependency to your Cargo.toml file:
+
+```toml
+[dependencies]
+solana-sdk = "1.9.0"
+```
+
+- Initialize a new Rust project using Cargo
+
+```bash
+cargo new my_project
+cd my_project
+```
+
+- All set, now you can begin writing out the smart contract
+
+## Creating Your First Solana Smart Contract
+
+In this section, you will learn how to create a simple Solana smart contract using Rust. Follow these steps to create a basic "Hello, World!" smart contract:
+
+- Create a new Rust file in your project directory:
+
+```bash
+touch src/lib.rs
+```
+
+- Open src/lib.rs in your favorite text editor and add the following code:
+
+```rust
+#![cfg_attr(not(feature = "std"), no_std)]
+
+use solana_program::{
+    account_info::{next_account_info, AccountInfo},
+    entrypoint,
+    entrypoint::ProgramResult,
+    msg,
+    pubkey::Pubkey,
+};
+
+entrypoint!(process_instruction);
+
+pub fn process_instruction(
+    _program_id: &Pubkey,
+    accounts: &[AccountInfo],
+    _instruction_data: &[u8],
+) -> ProgramResult {
+    msg!("Hello, Solana!");
+    Ok(())
+}
+```
+
+- Save the file and exit your text editor.
+
+## Deploying Smart Contracts on the Solana Blockchain
+
+Once you've created your smart contract, the next step is to deploy it on the Solana blockchain.
+
+Follow these steps to deploy your contract using the Solana CLI:
+
+- Build your smart contract:
+
+```bash
+cargo build-bpf
+```
+
+- Deploy your smart contract:
+
+```bash
+solana deploy target/deploy/my_project.so
+```
+
+Your smart contract is now deployed on the Solana blockchain!

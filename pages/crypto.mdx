@@ -1,0 +1,93 @@
+# Fundamentals of cryptography
+
+Understanding the fundamentals of cryptography, including public/private keys and hash functions, is essential for grasping how blockchain technology ensures security, privacy, and data integrity. This guide provides a detailed overview of these core concepts.
+
+## Public/Private Keys
+
+### Public Key Cryptography
+
+Public key cryptography, also known as asymmetric cryptography, involves a pair of keys: a public key and a private key. These keys are mathematically linked and serve distinct purposes in securing communications and transactions.
+
+- **Public Key**: This key can be shared openly and is used to encrypt data or verify digital signatures.
+- **Private Key**: This key must be kept secret and is used to decrypt data or create digital signatures.
+
+### Key Functions
+
+1. **Encryption and Decryption**:
+    - **Encryption**: Data encrypted with the public key can only be decrypted by the corresponding private key.
+    - **Decryption**: Data encrypted with the private key can only be decrypted by the corresponding public key.
+
+    ```javascript
+    // Example using Node.js crypto module
+    const crypto = require('crypto');
+
+    const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
+        modulusLength: 2048,
+    });
+
+    const data = "Hello, world!";
+    const encryptedData = crypto.publicEncrypt(publicKey, Buffer.from(data));
+    const decryptedData = crypto.privateDecrypt(privateKey, encryptedData);
+
+    console.log(decryptedData.toString()); // Outputs: Hello, world!
+    ```
+
+2. **Digital Signatures**:
+    - **Signing**: A private key is used to sign a message, creating a digital signature.
+    - **Verification**: The corresponding public key is used to verify the authenticity of the signature.
+
+    ```javascript
+    // Example using Node.js crypto module
+    const sign = crypto.createSign('SHA256');
+    sign.update(data);
+    sign.end();
+
+    const signature = sign.sign(privateKey);
+
+    const verify = crypto.createVerify('SHA256');
+    verify.update(data);
+    verify.end();
+
+    console.log(verify.verify(publicKey, signature)); // Outputs: true
+    ```
+
+### Importance in Blockchain
+
+- **Identity Verification**: Public/private keys are used to verify the identity of participants in the network.
+- **Transaction Security**: They ensure that only the owner of a private key can authorize a transaction.
+
+## Hash Functions
+
+### What is a Hash Function?
+
+A hash function takes an input (or message) and returns a fixed-size string of bytes. The output, known as a hash or digest, is unique to each unique input.
+
+### Key Properties
+
+1. **Deterministic**: The same input will always produce the same hash.
+2. **Quick Computation**: Hash functions are designed to be fast to compute.
+3. **Pre-image Resistance**: It should be infeasible to reverse-engineer the input from the hash.
+4. **Small Changes, Large Impact**: A small change in the input produces a drastically different hash.
+5. **Collision Resistance**: It should be extremely difficult to find two different inputs that produce the same hash.
+
+### Examples of Hash Functions
+
+- **SHA-256**: Commonly used in blockchain technology, including Bitcoin.
+
+    ```javascript
+    const sha256 = crypto.createHash('sha256');
+    sha256.update('Hello, world!');
+    const hash = sha256.digest('hex');
+
+    console.log(hash); // Outputs the SHA-256 hash of "Hello, world!"
+    ```
+
+### Importance in Blockchain
+
+- **Data Integrity**: Hash functions ensure that data has not been altered.
+- **Block Hashing**: Each block in a blockchain contains the hash of the previous block, ensuring the integrity of the entire chain.
+- **Proof of Work**: Hash functions are used in mining processes to validate transactions and add new blocks to the blockchain.
+
+## Conclusion
+
+The fundamentals of public/private keys and hash functions are crucial for understanding the security and functionality of blockchain technology. These cryptographic tools provide the means to secure transactions, verify identities, and maintain data integrity within a decentralized network.

@@ -1,0 +1,86 @@
+# Basic Example: Hello World with Anchor
+
+This guide provides a basic example of creating and deploying a "Hello World" Solana program using Anchor. Anchor simplifies the process of developing Solana smart contracts by providing high-level abstractions and utilities.
+
+## Overview
+
+### Objective
+
+- **Goal**: Create and deploy a basic Solana program that outputs "Hello, World!" when invoked using Anchor.
+
+## Steps to Create Hello World Program
+
+### Step 1: Initialize the Project
+
+1. **Create a New Project**:
+    ```sh
+    anchor init hello_world_anchor
+    cd hello_world_anchor
+    ```
+
+### Step 2: Define Program Logic
+
+1. **Open `programs/hello_world_anchor/src/lib.rs` and add the following code**:
+    ```rust
+    use anchor_lang::prelude::*;
+
+    declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkgVdXYkFG7C");
+
+    #[program]
+    pub mod hello_world_anchor {
+        use super::*;
+        pub fn greet(ctx: Context<Greet>) -> Result<()> {
+            msg!("Hello, World!");
+            Ok(())
+        }
+    }
+
+    #[derive(Accounts)]
+    pub struct Greet {}
+    ```
+
+### Step 3: Build and Deploy the Program
+
+1. **Build the Program**:
+    ```sh
+    anchor build
+    ```
+
+2. **Deploy the Program**:
+    ```sh
+    anchor deploy
+    ```
+
+## Interacting with the Program
+
+### Step 1: Create Client Script
+
+1. **Create a new file `client.js` and add the following code**:
+    ```javascript
+    const anchor = require('@project-serum/anchor');
+
+    async function main() {
+        const provider = anchor.Provider.env();
+        anchor.setProvider(provider);
+
+        const program = anchor.workspace.HelloWorldAnchor;
+
+        const tx = await program.rpc.greet();
+        console.log("Transaction signature:", tx);
+    }
+
+    main().catch(err => {
+        console.error(err);
+    });
+    ```
+
+### Step 2: Run the Client Script
+
+1. **Execute the Script**:
+    ```sh
+    node client.js
+    ```
+
+## Conclusion
+
+This basic "Hello World" example demonstrates how to create and deploy a Solana program using Anchor. By leveraging Anchor's high-level abstractions and utilities, developers can quickly build and deploy smart contracts on the Solana blockchain.

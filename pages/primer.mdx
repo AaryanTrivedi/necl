@@ -1,0 +1,131 @@
+# Rust and JS Programming for Solana: A Basic Primer
+
+This primer introduces the basics of programming for the Solana blockchain using Rust for writing smart contracts (programs) and JavaScript (JS) for interacting with these programs.
+
+## Rust Programming for Solana
+
+### Overview
+
+- **Language**: Rust is the primary language for developing on-chain programs on Solana.
+- **Features**: Rust provides memory safety, speed, and concurrency, making it ideal for blockchain development.
+
+### Setting Up the Environment
+
+1. **Install Rust**:
+    ```sh
+    rustup install stable
+    rustup default stable
+    ```
+
+2. **Install Solana CLI**:
+    ```sh
+    sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
+    ```
+
+3. **Install Anchor**:
+    ```sh
+    cargo install --git https://github.com/project-serum/anchor --tag v0.18.0 anchor-cli --locked
+    ```
+
+### Writing a Simple Program
+
+1. **Initialize Project**:
+    ```sh
+    anchor init hello_solana
+    cd hello_solana
+    ```
+
+2. **Define Program Logic**:
+    - Open `programs/hello_solana/src/lib.rs` and add:
+    ```rust
+    use anchor_lang::prelude::*;
+
+    declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkgVdXYkFG7C");
+
+    #[program]
+    pub mod hello_solana {
+        use super::*;
+        pub fn greet(ctx: Context<Greet>) -> Result<()> {
+            msg!("Hello, Solana!");
+            Ok(())
+        }
+    }
+
+    #[derive(Accounts)]
+    pub struct Greet {}
+    ```
+
+### Building and Deploying
+
+1. **Build the Program**:
+    ```sh
+    anchor build
+    ```
+
+2. **Deploy the Program**:
+    ```sh
+    solana program deploy target/deploy/hello_solana.so
+    ```
+
+## JS Programming for Solana
+
+### Overview
+
+- **Language**: JavaScript is used for building client-side applications that interact with Solana programs.
+- **Libraries**: Use Solana Web3.js and Anchor client libraries to facilitate interaction.
+
+### Setting Up the Environment
+
+1. **Install Node.js and NPM**:
+    - Download and install from [nodejs.org](https://nodejs.org).
+
+2. **Install Dependencies**:
+    ```sh
+    npm install @solana/web3.js @project-serum/anchor
+    ```
+
+### Interacting with a Program
+
+1. **Create Client Script**:
+    - Create a file `client.js` and add:
+    ```javascript
+    const solanaWeb3 = require('@solana/web3.js');
+    const anchor = require('@project-serum/anchor');
+
+    async function main() {
+        const provider = anchor.AnchorProvider.env();
+        anchor.setProvider(provider);
+
+        const program = anchor.workspace.HelloSolana;
+
+        const tx = await program.rpc.greet();
+        console.log("Transaction signature:", tx);
+    }
+
+    main().catch(err => {
+        console.error(err);
+    });
+    ```
+
+### Running the Client Script
+
+1. **Execute Script**:
+    ```sh
+    node client.js
+    ```
+
+## Best Practices
+
+### Rust
+
+- **Memory Safety**: Leverage Rust's ownership model to ensure memory safety.
+- **Testing**: Write unit tests to ensure the correctness of your program logic.
+
+### JavaScript
+
+- **Asynchronous Programming**: Use async/await to handle asynchronous operations efficiently.
+- **Error Handling**: Implement robust error handling to manage issues gracefully.
+
+## Conclusion
+
+This primer provides a basic introduction to programming on the Solana blockchain using Rust for on-chain programs and JavaScript for client-side interactions. By setting up the development environment, writing simple programs, and following best practices, developers can start building powerful decentralized applications on Solana.

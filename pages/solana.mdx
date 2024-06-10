@@ -1,0 +1,49 @@
+# Developing on the Solana Virtual Machine (SVM)
+
+### What is Solana?
+
+Solana is a high-performance blockchain platform designed for decentralized applications (dApps) and crypto-native projects. It distinguishes itself by offering fast transaction speeds, low fees, and scalability without sacrificing decentralization. At the core of Solana uses a proof-of-stake architecture, which allows for high throughput and efficiency.
+
+### Solana Programs
+
+In the context of Solana, a "program" refers to a smart contract or application deployed on the Solana blockchain. Solana programs are typically written in Rust or C, and they execute within the Solana Virtual Machine (SVM). Each program is associated with a specific address on the blockchain and contains the logic for handling transactions, updating state, and interacting with other programs.
+
+### Developing on Solana
+
+Developing on Solana involves writing smart contracts or programs that run on the Solana blockchain. Unlike traditional centralized applications, Solana development requires understanding blockchain concepts such as consensus mechanisms, transaction processing, and decentralized data storage. Developers use programming languages like Rust or C to write Solana programs, and they interact with the blockchain using the Solana Command Line Tool (CLI) or specialized SDKs.
+
+### SVM vs. EVM?
+
+#### Parallel Execution Capability:
+
+The SVM executes transactions in parallel, while the EVM processes them sequentially. This parallel execution of SVM addresses gas cost issues, especially during concurrent transactions.
+
+#### Mitigation of Gas Costs:
+
+EVM's sequential processing can lead to increased gas costs for unrelated transactions due to congestion. In contrast, SVM's parallel execution ensures that highly contested applications don't impact others, mitigating the "noisy neighbor problem."
+
+#### State Handling:
+
+EVM allows unrestricted state access per transaction, potentially causing slower lookups as the rollup state expands. SVM requires specifying necessary state for each transaction, offering a more efficient approach.
+
+#### Performance:
+
+Leveraging Solana's execution engine within the Ethereum ecosystem represents a significant enhancement in scalability and performance for decentralized applications deployed on the Eclipse rollup.
+
+### How does the SVM fit into the Eclipse workflow?
+
+#### Transaction Execution:
+
+Within the Eclipse workflow, transactions are processed using the Solana Virtual Machine (SVM). Unlike the traditional Ethereum rollups that rely on the Ethereum Virtual Machine (EVM), Eclipse leverages Solana's execution engine for transaction execution.
+
+#### Parallel Transaction Processing:
+
+The SVM is distinguished by its capability to execute transactions in parallel, without overlapping states. This stands in contrast to the sequential processing nature of the EVM. With SVM's parallel execution, multiple transactions can occur simultaneously, addressing potential gas cost issues and enhancing overall efficiency.
+
+#### Efficient State Handling:
+
+SVM requires specific state specification for each transaction, ensuring efficient processing. In contrast, the EVM allows unrestricted state access per transaction, which can lead to slower processing as the rollup state expands. By mandating precise state specification, SVM optimizes transaction execution within the Eclipse workflow.
+
+#### Integration with Eclipse's Workflow:
+
+As transactions are dispatched to a sequencer within Eclipse, they are subsequently processed using SVM. The parallel execution capability of SVM contributes to the scalability and performance of the Eclipse rollup. This integration showcases the innovative potential of combining Solana's execution engine with Ethereum's ecosystem, ultimately enhancing the functionality and efficiency of decentralized applications deployed on the Eclipse platform.

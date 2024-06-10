@@ -1,0 +1,98 @@
+# Cross-Program Invocations (CPIs)
+
+Cross-Program Invocations (CPIs) are a powerful feature of the Solana blockchain, allowing programs to call and interact with other deployed programs. This facilitates modularity and reusability in decentralized application development.
+
+## Overview
+
+### Definition
+
+- **Inter-Program Communication**: CPIs enable one program to invoke functions or methods of another program on the Solana blockchain.
+- **Modularity**: This allows developers to build modular programs that can leverage existing functionalities provided by other programs.
+
+### Importance
+
+- **Reusability**: Promotes code reuse and modular design, reducing duplication and simplifying development.
+- **Interoperability**: Enhances interoperability between different programs and dApps on the Solana network.
+
+## How CPIs Work
+
+### Invocation Process
+
+1. **Instruction Creation**: The invoking program creates an instruction specifying the target program and the desired function to call.
+2. **Context Passing**: Relevant data and context are passed along with the instruction to the target program.
+3. **Execution**: The Solana runtime executes the instruction, allowing the target program to perform the requested operation.
+
+### Security
+
+- **Authorization**: Proper authorization checks must be in place to ensure that only authorized programs can invoke sensitive functions.
+- **Data Validation**: Both the invoking and target programs should validate input data to prevent malicious actions or data corruption.
+
+## Implementing CPIs
+
+### Step-by-Step Guide
+
+1. **Identify Target Program**: Determine the public key of the program you wish to invoke.
+2. **Create Instruction**:
+    ```rust
+    use solana_program::instruction::{AccountMeta, Instruction};
+    use solana_program::pubkey::Pubkey;
+
+    let target_program_id = Pubkey::new_unique();
+    let accounts = vec![
+        AccountMeta::new(target_account_pubkey, false),
+        AccountMeta::new_readonly(invoking_program_pubkey, true),
+    ];
+    let instruction_data = vec![/* encoded instruction data */];
+    let instruction = Instruction::new_with_bytes(target_program_id, &instruction_data, accounts);
+    ```
+3. **Invoke Instruction**:
+    ```rust
+    use solana_program::program::invoke;
+    invoke(&instruction, &[/* account infos */])?;
+    ```
+
+### Example
+
+Suppose Program A wants to invoke a function in Program B to transfer tokens:
+
+1. **Program B Instruction**:
+    ```rust
+    pub fn transfer_tokens(ctx: Context<Transfer>, amount: u64) -> ProgramResult {
+        let from_account = &mut ctx.accounts.from;
+        let to_account = &mut ctx.accounts.to;
+
+        from_account.balance -= amount;
+        to_account.balance += amount;
+
+        Ok(())
+    }
+    ```
+
+2. **Program A Invocation**:
+    ```rust
+    let program_b_id = Pubkey::from_str("ProgramBPublicKey").unwrap();
+    let accounts = vec![
+        AccountMeta::new(from_account_pubkey, false),
+        AccountMeta::new(to_account_pubkey, false),
+        AccountMeta::new_readonly(invoker_pubkey, true),
+    ];
+    let instruction_data = Transfer { amount: 1000 }.try_to_vec().unwrap();
+    let instruction = Instruction::new_with_bytes(program_b_id, &instruction_data, accounts);
+    invoke(&instruction, &[/* account infos */])?;
+    ```
+
+## Best Practices
+
+### Security
+
+- **Access Control**: Implement robust access control to prevent unauthorized CPIs.
+- **Input Validation**: Always validate inputs to avoid processing invalid or malicious data.
+
+### Efficiency
+
+- **Minimize Overhead**: Keep CPI instructions lean to minimize overhead and ensure efficient execution.
+- **Batching**: Where possible, batch multiple instructions into a single transaction to reduce costs and improve performance.
+
+## Conclusion
+
+Cross-Program Invocations (CPIs) are a vital feature for building complex and modular applications on the Solana blockchain. By understanding how to implement and secure CPIs, developers can create interoperable and reusable smart contracts, enhancing the overall functionality and robustness of their decentralized applications.
