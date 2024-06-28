@@ -20,6 +20,7 @@
   "concepts": "Solana Programming Concepts",
   "spl": "Solana Programming Library",
   "accounts": "Accounts and Wallets",
+  "salmon": "Wallet Setup",
   "ownership":"Account Ownership and Permissions",
   "resource":"Rent and Resource management",
   "pda": "Program Derived Addresses",
